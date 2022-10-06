@@ -38,7 +38,7 @@ class Users(AbstractUser):
 
     gender = CharField(max_length=1, choices=GENDER_CHOICES)
     username = None
-    USERNAME_FIELD =  'username'
+    USERNAME_FIELD =  'email'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
 

@@ -25,11 +25,11 @@ class UserSerializer(ModelSerializer):
 class UserSerializerforImagefeed(ModelSerializer):
     class Meta:
         model = Users
-        fields = ['username']
+        fields = ['name']
     
  
 
 class UserSerializerForScoreBoard(ModelSerializer):
     class Meta:
         model = Users
-        fields = ['username', 'profileImage']
+        fields = ['name', 'profileImage']
