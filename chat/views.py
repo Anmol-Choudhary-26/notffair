@@ -13,7 +13,7 @@ from user.authentication import FirebaseAuthentication
 class GetRoomView(generics.GenericAPIView):
     serializer_class = GetRoomSerializer
 
-    authentication_classes = [FirebaseAuthentication]
+    # authentication_classes = [FirebaseAuthentication]
 
     def post(self, request: Request):
         data = request.data
@@ -57,7 +57,7 @@ class SendMsgViewSet(generics.CreateAPIView):
     serializer_class = SendMsgSerializer
     queryset =Message.objects.all()
 
-    authentication_classes = [FirebaseAuthentication]
+    # authentication_classes = [FirebaseAuthentication]
     # permission_classes = (
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
     
@@ -84,7 +84,7 @@ class GetMessages(generics.GenericAPIView):
     serializer_class = SendMsgSerializer
     queryset =Message.objects.all()
 
-    authentication_classes = [FirebaseAuthentication]
+    # authentication_classes = [FirebaseAuthentication]
     
     def get(self,request, room):
         try:
