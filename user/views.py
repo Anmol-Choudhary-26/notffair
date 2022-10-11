@@ -5,7 +5,7 @@ from .models import Users
 from rest_framework.response import Response
 from rest_framework.request import Request
 from rest_framework.generics import GenericAPIView
-
+from rest_framework.views import APIView
 from rest_framework.mixins import DestroyModelMixin, UpdateModelMixin
 
 from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR, \
@@ -17,7 +17,6 @@ from user.serializers import UserSerializer
 logger = logging.getLogger(__name__)
 
 
-# Create your views here.
 
 @api_view(["GET"])
 def userPresentOrNot(request, email):

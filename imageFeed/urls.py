@@ -5,8 +5,7 @@ from imageFeed.views import PostList
 from imageFeed import views
 
 urlpatterns = [
-    
-     path('^post/', PostList.as_view(),name='posts'),
+     path('', PostList.as_view(),name='posts'),
      path('comment/',
          views.AddCommentView.as_view(),
          name='add-comment'),     

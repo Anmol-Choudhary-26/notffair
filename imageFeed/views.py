@@ -19,7 +19,7 @@ from user.authentication import FirebaseAuthentication
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = PostSerializer
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
     # permission_classes = (
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
@@ -49,7 +49,7 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
 class AddCommentView(generics.CreateAPIView):
     serializer_class = CommentSerializer
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
@@ -79,7 +79,7 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     lookup_url_kwarg = 'comment_id'
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
     # permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
 
     def get_queryset(self):
@@ -91,7 +91,7 @@ class LikeView(GenericAPIView):
     serializer_class = LikeSerializer
     """Toggle like"""
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
     # authentication_classes = [SessionAuthentication]
     # permission_classes = [permissions.IsAuthenticated]
 
@@ -137,7 +137,7 @@ class GetLikersView(generics.ListAPIView):
     serializer_class = UserSerializerforImagefeed
     pagination_class = FollowersLikersPagination
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
     # permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
