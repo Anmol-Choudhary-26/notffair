@@ -10,6 +10,8 @@ from utils.helper_response import InvalidUserIdResponse
 from .serializers import ReportSerializer, SendMsgSerializer, GetRoomSerializer
 from user.authentication import FirebaseAuthentication
 
+# views
+
 class GetRoomView(generics.GenericAPIView):
     serializer_class = GetRoomSerializer
 
@@ -30,8 +32,9 @@ class GetRoomView(generics.GenericAPIView):
             if Room.objects.all().exists():
                 if Room.objects.filter(chater2=None).first():
                     Room1 = Room.objects.filter(chater2=None).first()
-                    roomMember = Room1.chater1
-                    exsistingUser = Users.object.all().get(firebase = roomMember)
+                    roomMember = Room1.chater1.firebase
+                    exsistingUser = Users.objects.get(firebase = roomMember)
+
                     if exsistingUser.gender == user.gender:
                         new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                         new_room.save()
@@ -85,7 +88,6 @@ class GetMessages(generics.GenericAPIView):
     queryset =Message.objects.all()
 
     # authentication_classes = [FirebaseAuthentication]
-    
     
     def get(self,request, room):
         try:
