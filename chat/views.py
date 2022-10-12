@@ -31,7 +31,7 @@ class GetRoomView(generics.GenericAPIView):
                 if Room.objects.filter(chater2=None).first():
                     Room1 = Room.objects.filter(chater2=None).first()
                     roomMember = Room1.chater1
-                    exsistingUser = Users.object.all().get(firebase = roomMember)
+                    exsistingUser = Users.objects.all().get(firebase = roomMember)
                     if exsistingUser.gender == user.gender:
                         new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                         new_room.save()
