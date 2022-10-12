@@ -32,6 +32,7 @@ class GetRoomView(generics.GenericAPIView):
             if Room.objects.all().exists():
                 if Room.objects.filter(chater2=None).first():
                     Room1 = Room.objects.filter(chater2=None).first()
+
                     roomMember = Room1.chater1.firebase
                     exsistingUser = Users.objects.get(firebase = roomMember)
 
