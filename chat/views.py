@@ -20,7 +20,7 @@ class GetRoomView(generics.GenericAPIView):
         serializer = GetRoomSerializer(data = data)
         if serializer.is_valid():
             try:
-                user = Users.object.all().get(firebase = data['chater1'])
+                user = Users.objects.all().get(firebase = data['chater1'])
             except Users.DoesNotExist:
                 return InvalidUserIdResponse
 
@@ -85,6 +85,7 @@ class GetMessages(generics.GenericAPIView):
     queryset =Message.objects.all()
 
     # authentication_classes = [FirebaseAuthentication]
+    
     
     def get(self,request, room):
         try:
