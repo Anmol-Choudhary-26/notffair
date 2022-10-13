@@ -4,7 +4,12 @@ from .models import Message, Report, Room
 class GetRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ['nickname1']
+        fields = "__all__"
+
+class RoomSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Room
+        fields = "__all__"
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:

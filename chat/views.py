@@ -7,7 +7,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import  generics, status
 from utils.helper_response import InvalidUserIdResponse
-from .serializers import ReportSerializer, SendMsgSerializer, GetRoomSerializer
+from .serializers import ReportSerializer, RoomSerializer, SendMsgSerializer, GetRoomSerializer
 from user.authentication import FirebaseAuthentication
 
 # views
@@ -20,6 +20,7 @@ class GetRoomView(generics.GenericAPIView):
     def post(self, request: Request, pk):
         data = request.data
         serializer = GetRoomSerializer(data = data)
+        
         if serializer.is_valid():
             try:
                 user = Users.objects.all().get(firebase = pk)
@@ -28,7 +29,7 @@ class GetRoomView(generics.GenericAPIView):
 
             if  user.ChatAllowed == False:
                 return Response({"Message": "Not allowed"}, status.HTTP_403_FORBIDDEN)
-
+  
             if Room.objects.all().exists():
                 if Room.objects.filter(chater2=None).first():
                     Room1 = Room.objects.filter(chater2=None).first()
@@ -40,25 +41,25 @@ class GetRoomView(generics.GenericAPIView):
                         new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                         new_room.save()
                         print("hlo2")
-                        return Response({"Message": "New Room Created"}, status.HTTP_201_CREATED)
+                        return Response(serializer.data, status.HTTP_201_CREATED)
                     else :
                         Room1.chater2 = user
                         Room1.nickname2 = data['nickname1']
                         Room1.save()
                         print("hlo1")
-                        return Response({"Message": "Added to existing room"}, status.HTTP_201_CREATED)
+                        return Response(serializer.data, status.HTTP_201_CREATED)
 
                 else: 
                     new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                     new_room.save()
                     print("hlo3")
-                    return Response({"Message": "New Room Created"}, status.HTTP_201_CREATED)
+                    return Response(serializer.data, status.HTTP_201_CREATED)
 
             else : 
                 new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                 new_room.save()
                 print("hlo5")
-                return Response({"Message": "New Room Created"}, status.HTTP_201_CREATED)
+                return Response(serializer.data, status.HTTP_201_CREATED)
      
 
 class SendMsgViewSet(generics.CreateAPIView):
