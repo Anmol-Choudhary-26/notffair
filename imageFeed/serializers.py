@@ -76,5 +76,6 @@ class PostSerializer(serializers.ModelSerializer):
     #     return author
 
 class LikeSerializer(serializers.Serializer):
-    postId = serializers.CharField(help_text="Post Id", max_length=256)
-    userId = serializers.CharField(help_text="User Firebase Id", max_length=256)
+    class Meta:
+        model : Post
+        

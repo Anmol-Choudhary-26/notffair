@@ -13,7 +13,7 @@ urlpatterns = [
      path('comment/<int:comment_id>/',
           views.ManageCommentView.as_view(),
           name='manage-comment'),
-     path('like/',
+     path('like/<str:pk>/<str:pk1>',
           views.LikeView.as_view(),
           name='like'),
      path('get-likers/<uuid:post_id>/',
