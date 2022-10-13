@@ -17,12 +17,12 @@ class GetRoomView(generics.GenericAPIView):
 
     # authentication_classes = [FirebaseAuthentication]
 
-    def post(self, request: Request):
+    def post(self, request: Request, pk):
         data = request.data
         serializer = GetRoomSerializer(data = data)
         if serializer.is_valid():
             try:
-                user = Users.objects.all().get(firebase = data['chater1'])
+                user = Users.objects.all().get(firebase = pk)
             except Users.DoesNotExist:
                 return InvalidUserIdResponse
 
@@ -39,21 +39,25 @@ class GetRoomView(generics.GenericAPIView):
                     if exsistingUser.gender == user.gender:
                         new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                         new_room.save()
+                        print("hlo2")
                         return Response({"Message": "New Room Created"}, status.HTTP_201_CREATED)
                     else :
                         Room1.chater2 = user
                         Room1.nickname2 = data['nickname1']
                         Room1.save()
+                        print("hlo1")
                         return Response({"Message": "Added to existing room"}, status.HTTP_201_CREATED)
 
                 else: 
                     new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                     new_room.save()
+                    print("hlo3")
                     return Response({"Message": "New Room Created"}, status.HTTP_201_CREATED)
 
             else : 
                 new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                 new_room.save()
+                print("hlo5")
                 return Response({"Message": "New Room Created"}, status.HTTP_201_CREATED)
      
 

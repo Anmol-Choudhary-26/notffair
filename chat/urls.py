@@ -3,7 +3,7 @@ from .views import GetMessages, GetRoomView, SendMsgViewSet, reportView, blockRo
 
 urlpatterns = [
   
-    path('getRoom/', GetRoomView.as_view(), name='getRoom'),
+    path('getRoom/<str:pk>/', GetRoomView.as_view(), name='getRoom'),
     path('send/', SendMsgViewSet.as_view(), name='send'),
     path('getMessages/<str:room>/', GetMessages.as_view(), name='getMessages'),
     path("report/<int:firebase>/", reportView, name='reportUser'),

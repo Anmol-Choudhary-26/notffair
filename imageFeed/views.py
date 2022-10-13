@@ -30,12 +30,12 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    def post(self, request: Request):
+    def post(self, request: Request, pk):
         data = request.data
         serializer = PostSerializer(data=data)
         if serializer.is_valid():
             try:
-                user = Users.objects.all().get(firebase = data['author'])
+                user = Users.objects.all().get(firebase = pk)
             except Users.DoesNotExist:
                 return InvalidUserIdResponse
 

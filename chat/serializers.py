@@ -4,7 +4,7 @@ from .models import Message, Report, Room
 class GetRoomSerializer(serializers.ModelSerializer):
     class Meta:
         model = Room
-        fields = ['chater1', 'nickname1']
+        fields = ['nickname1']
 
 class ReportSerializer(serializers.ModelSerializer):
     class Meta:
