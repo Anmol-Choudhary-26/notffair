@@ -1,8 +1,10 @@
+from http.client import HTTPResponse
 import logging
 from django.http.response import Http404
 from rest_framework.decorators import api_view
 from .models import Users
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.request import Request
 from rest_framework.generics import GenericAPIView
 from rest_framework.views import APIView
@@ -24,10 +26,20 @@ def userPresentOrNot(request, email):
     Check whether a user is present or not
     Based on User Email Id
     """
-
+    print(email)
     try:
         user = Users.objects.get(email=email)
-        return Response({"user_present": True})
+        print(user)
+        m = {
+            "firebaseid":user.firebase,
+            "name": user.name,
+            "email":user.email,
+            "instaid":user.instagramId
+        }
+        print("kd")
+        # return HTTPResponse("<h1>la</h1>")
+        # return JsResponse({"firebaseid":})
+        return JsonResponse(m)
     except Users.DoesNotExist:
         return Response({"user_present": False})
 
