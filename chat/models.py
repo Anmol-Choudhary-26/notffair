@@ -8,13 +8,14 @@ class Room(models.Model):
     id = models.UUIDField(primary_key=True,
                           default=uuid.uuid4,
                           editable=False)
-    chater1 = models.ForeignKey(Users, on_delete=models.CASCADE,related_name="chater1")
+    chater1 = models.ForeignKey(Users, on_delete=models.CASCADE,null=True,related_name="chater1")
     nickname1 = models.CharField(max_length= 100,  default="NoName1")
     chater2 = models.ForeignKey(Users, on_delete=models.CASCADE, null=True, related_name="chater2")
     nickname2 = models.CharField(max_length= 100, default="Noname2")
     roomBlocked = models.BooleanField('RoomBlocked', default=False)
 
-    
+    def __str__(self):
+        return self.nickname1 + ' ' + self.nickname2
 
 class Message(models.Model):
     value = models.CharField(max_length=1000000)

@@ -40,26 +40,30 @@ class GetRoomView(generics.GenericAPIView):
                     if exsistingUser.gender == user.gender:
                         new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                         new_room.save()
+                        respSerializer = GetRoomSerializer(new_room)
                         print("hlo2")
-                        return Response(serializer.data, status.HTTP_201_CREATED)
+                        return Response(respSerializer.data, status.HTTP_201_CREATED)
                     else :
                         Room1.chater2 = user
                         Room1.nickname2 = data['nickname1']
                         Room1.save()
+                        respSerializer = GetRoomSerializer(Room1)
                         print("hlo1")
-                        return Response(serializer.data, status.HTTP_201_CREATED)
+                        return Response(respSerializer.data, status.HTTP_201_CREATED)
 
                 else: 
                     new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                     new_room.save()
+                    respSerializer = GetRoomSerializer(new_room)
                     print("hlo3")
-                    return Response(serializer.data, status.HTTP_201_CREATED)
+                    return Response(respSerializer.data, status.HTTP_201_CREATED)
 
             else : 
                 new_room = Room.objects.create(chater1=user, nickname1 = data['nickname1'])
                 new_room.save()
+                respSerializer = GetRoomSerializer(new_room)
                 print("hlo5")
-                return Response(serializer.data, status.HTTP_201_CREATED)
+                return Response(respSerializer.data, status.HTTP_201_CREATED)
      
 
 class SendMsgViewSet(generics.CreateAPIView):
