@@ -12,13 +12,10 @@ class CommentSerializer(serializers.ModelSerializer):
     """
     Serializer for the comment objects
     """
-
-    author = UserSerializerforImagefeed(read_only=True)
-
     class Meta:
         model = Comment
-        fields = ['id', 'author', 'text', 'posted_on']
-        read_only_fields = ['author', 'id', 'posted_on']
+        fields = [ 'text']
+       
 
     
     # def create(self,validated_data):

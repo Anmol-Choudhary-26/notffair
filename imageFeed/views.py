@@ -53,17 +53,17 @@ class AddCommentView(generics.CreateAPIView):
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
-    def post(self, request: Request):
+    def post(self, request: Request, pk, pk1):
         data = request.data
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             try:
-                post = Post.objects.all().get(id = data['post'])
+                post = Post.objects.get(id = pk)
             except Post.DoesNotExist:
                 return Response({"Message": "Invalid Post"}, status.HTTP_404_NOT_FOUND)
             
             try:
-                user = Users.objects.all().get(firebase = data['author'])
+                user = Users.objects.all().get(firebase = pk1)
             except Users.DoesNotExist:
                 return InvalidUserIdResponse
 

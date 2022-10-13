@@ -7,7 +7,7 @@ from imageFeed import views
 urlpatterns = [
       path('', PostList.as_view(),name='posts'),
      path('<str:pk>/', PostList.as_view(),name='posts'),
-     path('comment/',
+     path('comment/<str:pk>/<str:pk1>/',
          views.AddCommentView.as_view(),
          name='add-comment'),     
      path('comment/<int:comment_id>/',
