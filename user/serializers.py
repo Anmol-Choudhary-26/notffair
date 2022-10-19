@@ -25,7 +25,7 @@ class UserSerializer(ModelSerializer):
 class UserSerializerforImagefeed(ModelSerializer):
     class Meta:
         model = Users
-        fields = ['firebase']
+        fields = ['firebase', 'profileImage', ' name', ' email']
     
  
 

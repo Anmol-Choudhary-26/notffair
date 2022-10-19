@@ -1,6 +1,7 @@
 from pyexpat import model
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from user.models import Users
 from django.conf import settings
 
 # Create your models here.
@@ -16,7 +17,7 @@ class AdminUser(models.Model):
 
     def save(self, *args, **kwargs):
         super(AdminUser, self).save(*args, **kwargs)
-        user:User = self.user
+        user:Users = self.user
         user.password = self.password
         user.save()
         return self
