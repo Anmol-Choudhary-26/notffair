@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from .serializers import PostSerializer, CommentSerializer, UserSerializerforImagefeed, LikeSerializer
+from user.serializers import UserSerializer
 from .models import Post, Comment
 from user.models import Users
+from django.http.response import Http404
 from rest_framework.request import Request
 from rest_framework.authentication import SessionAuthentication
 from .permissions import IsOwnerOrReadOnly, IsOwnerOrPostOwnerOrReadOnly
@@ -165,3 +167,33 @@ def getPostComments(request, post):
         f"{post}'scommenters":fmembers
     }
     return JsonResponse(map1,safe=False)
+
+class postView(GenericAPIView, UpdateModelMixin, DestroyModelMixin):
+    serializer_class =  PostSerializer
+
+    def get_queryset(self, pk=None):
+        try:
+            if pk == None:
+                return Post.objects.all()
+            return Post.objects.get(pk=pk)
+        except Users.DoesNotExist:
+            raise Http404
+
+    def get(self, request: Request, pk):
+        """
+        Returns user with given firebase id
+        """
+        post = PostSerializer(self.get_queryset(pk))
+        return Response(post.data)
+
+    def put(self, request: Request, *args, **kwargs):
+        """
+        Updates user with given firebase id
+        """
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request: Request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request: Request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

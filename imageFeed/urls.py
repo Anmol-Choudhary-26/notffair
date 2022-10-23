@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from imageFeed.views import PostList
+from imageFeed.views import PostList, postView
 from imageFeed import views
 
 urlpatterns = [
@@ -20,4 +20,5 @@ urlpatterns = [
           views.GetLikersView.as_view(),
           name='get-likers'),
      path('getcomment/<uuid:post>/',views.getPostComments,name="get-comments"),
+      path("post/<str:pk>/", postView.as_view()),
 ]
