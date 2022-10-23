@@ -31,10 +31,19 @@ def userPresentOrNot(request, email):
         user = Users.objects.get(email=email)
         print(user)
         m = {
-            "firebaseid":user.firebase,
-            "name": user.name,
-            "email":user.email,
-            "instaid":user.instagramId
+
+             "first_name": user.first_name,
+    "last_name": user.last_name,
+    "firebase": user.firebase,
+    "name": user.name,
+    "gender": user.gender,
+    "phone": user.phone,
+    "ChatAllowed": user.ChatAllowed,
+    "ChatReports": user.ChatReports,
+    "email": user.email,
+    "score": user.score,
+    "instagramId": user.instagramId,
+    "profileImage": user.profileImage
         }
         print("kd")
         # return HTTPResponse("<h1>la</h1>")
