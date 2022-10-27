@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from django.shortcuts import render, redirect
 from chat.models import Room, Message
 from django.http import HttpResponse, JsonResponse
