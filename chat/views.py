@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from django.shortcuts import render, redirect
 from chat.models import Room, Message
 from django.http import HttpResponse, JsonResponse
@@ -11,6 +12,24 @@ from .serializers import ReportSerializer, RoomSerializer, SendMsgSerializer, Ge
 from user.authentication import FirebaseAuthentication
 
 # views
+
+@api_view(["GET"])
+def userPresentOrNot(request, roomId):
+    """
+    Check whether chater2 is present or not
+    """
+
+    try:
+        room = Room.objects.get(id=roomId)
+        chater2 = room.chater2
+        if chater2 == None:
+         print(chater2)
+         return Response({"chatter2_present": False})
+        else: 
+            return Response({"chatter2_present": True})
+    except Users.DoesNotExist:
+        return Response({"chatter2_present": False})
+
 
 class GetRoomView(generics.GenericAPIView):
     serializer_class = GetRoomSerializer
@@ -73,6 +92,8 @@ class SendMsgViewSet(generics.CreateAPIView):
     # authentication_classes = [FirebaseAuthentication]
     # permission_classes = (
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
+
+
     
     def post(self,  request):
         data = request.data
