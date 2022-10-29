@@ -55,6 +55,7 @@ urlpatterns = [
     path('coupons/', include('coupons.urls')),
     path('store/', include('store.urls')),
     path('chat/', include('chat.urls')),
+    path('TeamFeed/', include('TeamFeed.urls')),
 ]
 
 
