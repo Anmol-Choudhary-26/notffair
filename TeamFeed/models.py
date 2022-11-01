@@ -1,23 +1,25 @@
+from email.policy import default
 from django.db import models
 from user.models import Users
 import uuid
 # Create your models here.
 
 
-class Post(models.Model):
+class TeamPost(models.Model):
     id = models.UUIDField(primary_key=True,
                           default=uuid.uuid4,
                           editable=False)
     author = models.ForeignKey(
         Users,
         on_delete=models.CASCADE,
-        related_name='user_posts'
+        related_name='Team_posts'
     )
+    isVid = models.BooleanField(default=False)
     photo = models.URLField(max_length=255,null=True, blank=False)
     text = models.TextField(max_length=500, blank=True)
     posted_on = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(Users,
-                                   related_name="likers",
+                                   related_name="TeamPost_likers",
                                    blank=True,
                                    symmetrical=False)
 
@@ -34,13 +36,13 @@ class Post(models.Model):
         return f'{self.author}\'s post'
 
 
-class Comment(models.Model):
-    post = models.ForeignKey('Post',
+class TeamComment(models.Model):
+    post = models.ForeignKey('TeamPost',
                              on_delete=models.CASCADE,
-                             related_name='post_comments')
+                             related_name='Teampost_comments')
     author = models.ForeignKey(Users,
                                on_delete=models.CASCADE,
-                               related_name='user_comments')
+                               related_name='Teampost_comments')
     text = models.CharField(max_length=100)
     posted_on = models.DateTimeField(auto_now_add=True)
 

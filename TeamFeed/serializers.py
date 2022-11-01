@@ -1,4 +1,4 @@
-from .models import Post, Comment
+from .models import TeamPost, TeamComment
 from rest_framework import serializers
 from user.models import Users
 from django.core.paginator import Paginator
@@ -13,7 +13,7 @@ class CommentSerializer(serializers.ModelSerializer):
     Serializer for the comment objects
     """
     class Meta:
-        model = Comment
+        model = TeamComment
         fields = [ 'text']
        
 
@@ -42,14 +42,14 @@ class PostSerializer(serializers.ModelSerializer):
     # liked_by_req_user = serializers.SerializerMethodField()
 
     class Meta:
-        model = Post
+        model = TeamPost
         fields = ['id', 'author',  'photo',
                   'text', 'posted_on',
                   'number_of_likes', 'number_of_comments'
                   ]
 
     def get_number_of_comments(self, obj):
-        return Comment.objects.filter(post=obj).count()
+        return TeamComment.objects.filter(post=obj).count()
 
     # def paginated_post_comments(self, obj):
     #     page_size = 2
@@ -77,5 +77,5 @@ class PostSerializer(serializers.ModelSerializer):
 
 class LikeSerializer(serializers.Serializer):
     class Meta:
-        model : Post
+        model : TeamPost
         

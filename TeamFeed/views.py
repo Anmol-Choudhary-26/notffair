@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from .serializers import PostSerializer, CommentSerializer, UserSerializerforImagefeed, LikeSerializer
-from .models import Post, Comment
+from .models import TeamPost, TeamComment
 from user.models import Users
 from rest_framework.request import Request
 from rest_framework.authentication import SessionAuthentication
@@ -24,7 +24,7 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
-        queryset = Post.objects.all()
+        queryset = TeamPost.objects.all()
         return queryset
 
     def get(self, request, *args, **kwargs):
@@ -58,8 +58,8 @@ class AddCommentView(generics.CreateAPIView):
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             try:
-                post = Post.objects.get(id = pk)
-            except Post.DoesNotExist:
+                post = TeamPost.objects.get(id = pk)
+            except TeamPost.DoesNotExist:
                 return Response({"Message": "Invalid Post"}, status.HTTP_404_NOT_FOUND)
             
             try:
@@ -83,7 +83,7 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
     # permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
 
     def get_queryset(self):
-        queryset = Comment.objects.all()
+        queryset = TeamComment.objects.all()
         return queryset
 
 
@@ -100,8 +100,8 @@ class LikeView(GenericAPIView):
         serializer = LikeSerializer(data=data)
         if serializer.is_valid():
             try:
-                post = Post.objects.all().get(id = pk)
-            except Post.DoesNotExist:
+                post = TeamPost.objects.all().get(id = pk)
+            except TeamPost.DoesNotExist:
                 return Response({"Message": "Invalid Post"}, status.HTTP_404_NOT_FOUND)
             
             try:
@@ -142,14 +142,14 @@ class GetLikersView(generics.ListAPIView):
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']
-        queryset = Post.objects.get(
+        queryset = TeamPost.objects.get(
             pk=post_id).likes.all()
         return queryset
 
 
 def getPostComments(request, post):
-    getpost = Post.objects.get(id=post)
-    commenters = Comment.objects.filter(post = getpost)
+    getpost = TeamPost.objects.get(id=post)
+    commenters = TeamComment.objects.filter(post = getpost)
     fmembers = []
     for member in commenters:
         m = {
