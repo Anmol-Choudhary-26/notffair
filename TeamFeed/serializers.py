@@ -8,7 +8,7 @@ from user.serializers import UserSerializerforImagefeed
 
 
 
-class CommentSerializer(serializers.ModelSerializer):
+class TeamCommentSerializer(serializers.ModelSerializer):
     """
     Serializer for the comment objects
     """
@@ -29,7 +29,7 @@ class CommentSerializer(serializers.ModelSerializer):
     #     return author
 
 
-class PostSerializer(serializers.ModelSerializer):
+class TeamPostSerializer(serializers.ModelSerializer):
     """
     Serializer for the post objects
     """
@@ -75,7 +75,7 @@ class PostSerializer(serializers.ModelSerializer):
     #     author.save()
     #     return author
 
-class LikeSerializer(serializers.Serializer):
+class TeamLikeSerializer(serializers.Serializer):
     class Meta:
         model : TeamPost
         

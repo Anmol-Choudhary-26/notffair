@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from imageFeed.views import PostList
-from imageFeed import views
+from .views import PostList
+from TeamFeed import views
 
 urlpatterns = [
       path('', PostList.as_view(),name='posts'),

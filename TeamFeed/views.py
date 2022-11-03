@@ -2,7 +2,7 @@ from rest_framework import permissions, viewsets, generics, status
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .serializers import PostSerializer, CommentSerializer, UserSerializerforImagefeed, LikeSerializer
+from .serializers import TeamPostSerializer, TeamCommentSerializer, UserSerializerforImagefeed, TeamLikeSerializer
 from .models import TeamPost, TeamComment
 from user.models import Users
 from rest_framework.request import Request
@@ -17,7 +17,7 @@ from user.authentication import FirebaseAuthentication
 
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
-    serializer_class = PostSerializer
+    serializer_class = TeamPostSerializer
 
     # authentication_classes = [FirebaseAuthentication]
     # permission_classes = (
@@ -32,7 +32,7 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
 
     def post(self, request: Request, pk):
         data = request.data
-        serializer = PostSerializer(data=data)
+        serializer = TeamPostSerializer(data=data)
         if serializer.is_valid():
             try:
                 user = Users.objects.all().get(firebase = pk)
@@ -47,7 +47,7 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
 
 
 class AddCommentView(generics.CreateAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = TeamCommentSerializer
 
     # authentication_classes = [FirebaseAuthentication]
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -55,7 +55,7 @@ class AddCommentView(generics.CreateAPIView):
 
     def post(self, request: Request, pk, pk1):
         data = request.data
-        serializer = CommentSerializer(data=data)
+        serializer = TeamCommentSerializer(data=data)
         if serializer.is_valid():
             try:
                 post = TeamPost.objects.get(id = pk)
@@ -76,7 +76,7 @@ class AddCommentView(generics.CreateAPIView):
 
 
 class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = CommentSerializer
+    serializer_class = TeamCommentSerializer
     lookup_url_kwarg = 'comment_id'
 
     # authentication_classes = [FirebaseAuthentication]
@@ -88,7 +88,7 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LikeView(GenericAPIView):
-    serializer_class = LikeSerializer
+    serializer_class = TeamLikeSerializer
     """Toggle like"""
 
     # authentication_classes = [FirebaseAuthentication]
@@ -97,7 +97,7 @@ class LikeView(GenericAPIView):
 
     def post(self, request: Request,pk, pk1):
         data = request.data
-        serializer = LikeSerializer(data=data)
+        serializer = TeamLikeSerializer(data=data)
         if serializer.is_valid():
             try:
                 post = TeamPost.objects.all().get(id = pk)
