@@ -66,12 +66,12 @@ INSTALLED_APPS = [
 
 ]
 
-#REST_FRAMEWORK = {
-#    'DEFAULT_PERMISSION_CLASSES': [
-#        'rest_framework.permissions.IsAuthenticated',
-#        # 'rest_framework.permissions.COUPON_PERMISSIONS',
-#    ]
-#}
+REST_FRAMEWORK = {
+   
+       'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+       'PAGE_SIZE': 20
+   
+}
 
 
 MIDDLEWARE = [
@@ -79,7 +79,6 @@ MIDDLEWARE = [
      'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-   
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
