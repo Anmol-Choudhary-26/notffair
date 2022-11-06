@@ -13,6 +13,7 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         related_name='user_posts'
     )
+   
     photo = models.URLField(max_length=255,null=True, blank=False)
     text = models.TextField(max_length=500, blank=True)
     posted_on = models.DateTimeField(auto_now_add=True)
