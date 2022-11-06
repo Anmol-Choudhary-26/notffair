@@ -5,9 +5,6 @@ from django.core.paginator import Paginator
 from user.serializers import UserSerializerforImagefeed
 
 
-
-
-
 class CommentSerializer(serializers.ModelSerializer):
     """
     Serializer for the comment objects
@@ -16,8 +13,6 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = [ 'text']
        
-
-    
     # def create(self,validated_data):
     #     author = Users(
     #         name = validated_data['name'],
