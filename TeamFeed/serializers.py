@@ -44,7 +44,7 @@ class TeamPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeamPost
         fields = ['id', 'author',  'photo',
-                  'text', 'posted_on',
+                  'text', 'posted_on','isVid',
                   'number_of_likes', 'number_of_comments'
                   ]
 
