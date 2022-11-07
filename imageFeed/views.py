@@ -156,7 +156,7 @@ def getPostComments(request, post):
     for member in commenters:
         m = {
             "id" : member.id,
-            
+            "author_firebaseID": member.author.firebase,
             "author" : str(member.author),
             "text" : member.text,
             "posted_on" : member.posted_on

@@ -153,11 +153,13 @@ def getPostComments(request, post):
     fmembers = []
     for member in commenters:
         m = {
+
             "id" : member.id,
-            
             "author" : str(member.author),
+            "author_firebaseID": member.author.firebase,
             "text" : member.text,
             "posted_on" : member.posted_on
+
         }
         fmembers.append(m)
         

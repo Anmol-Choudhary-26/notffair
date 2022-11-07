@@ -7,7 +7,7 @@ class Events(models.Model):
     startTime = models.DateTimeField("start",null = True)
     endTime = models.DateTimeField("end",null = True)
     clubName = models.CharField(max_length=50 , null = False)
-    platform = models.URLField(null=False)
+    platform = models.URLField(null=True)
     image = models.URLField("Image Url", null=True,blank=True)
     regURL = models.URLField("regURL", blank=True, null=True)
 
