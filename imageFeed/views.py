@@ -16,11 +16,12 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateModelMixin , RetrieveModelMixin , DestroyModelMixin
 from django.http import JsonResponse
 from user.authentication import FirebaseAuthentication
+from .pagination import PageNumberPagination, PostsPagination
 
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = PostSerializer
-
+    pagination_class = PostsPagination
     # authentication_classes = [FirebaseAuthentication]
     # permission_classes = (
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)

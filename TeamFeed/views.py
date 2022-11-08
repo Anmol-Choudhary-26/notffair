@@ -11,13 +11,15 @@ from .permissions import IsOwnerOrReadOnly, IsOwnerOrPostOwnerOrReadOnly
 from .pagination import FollowersLikersPagination
 from utils.helper_response import InvalidUserIdResponse
 from rest_framework.generics import GenericAPIView
+from django.http.response import Http404
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateModelMixin , RetrieveModelMixin , DestroyModelMixin
 from django.http import JsonResponse
 from user.authentication import FirebaseAuthentication
-
+from .pagination import PageNumberPagination, PostsPagination
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = TeamPostSerializer
+    # pagination_class = PostsPagination
 
     # authentication_classes = [FirebaseAuthentication]
     # permission_classes = (
@@ -167,3 +169,34 @@ def getPostComments(request, post):
         f"{post}'scommenters":fmembers
     }
     return JsonResponse(map1,safe=False)
+
+
+class TeampostView(GenericAPIView, UpdateModelMixin, DestroyModelMixin):
+    serializer_class =  TeamPostSerializer
+
+    def get_queryset(self, pk=None):
+        try:
+            if pk == None:
+                return TeamPost.objects.all()
+            return TeamPost.objects.get(pk=pk)
+        except Users.DoesNotExist:
+            raise Http404
+
+    def get(self, request: Request, pk):
+        """
+        Returns user with given firebase id
+        """
+        post = TeamPostSerializer(self.get_queryset(pk))
+        return Response(post.data)
+
+    def put(self, request: Request, *args, **kwargs):
+        """
+        Updates user with given firebase id
+        """
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request: Request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request: Request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
