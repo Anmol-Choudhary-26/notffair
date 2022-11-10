@@ -19,11 +19,11 @@ from .pagination import PageNumberPagination, PostsPagination
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = TeamPostSerializer
-    # pagination_class = PostsPagination
+    pagination_class = PostsPagination
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (
-    #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (
+        IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
 
@@ -67,8 +67,8 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
 class AddCommentView(generics.CreateAPIView):
     serializer_class = TeamCommentSerializer
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
     def post(self, request: Request, pk, pk1):
@@ -97,8 +97,8 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TeamCommentSerializer
     lookup_url_kwarg = 'comment_id'
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
 
     def get_queryset(self):
         queryset = TeamComment.objects.all()
@@ -109,9 +109,8 @@ class LikeView(GenericAPIView):
     serializer_class = TeamLikeSerializer
     """Toggle like"""
 
-    # authentication_classes = [FirebaseAuthentication]
-    # authentication_classes = [SessionAuthentication]
-    # permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request: Request,pk, pk1):
         data = request.data
@@ -155,8 +154,8 @@ class GetLikersView(generics.ListAPIView):
     serializer_class = UserSerializerforImagefeed
     pagination_class = FollowersLikersPagination
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (permissions.AllowAny,)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']

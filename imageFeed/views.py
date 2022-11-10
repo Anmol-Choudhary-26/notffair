@@ -20,9 +20,9 @@ from .pagination import PageNumberPagination, PostsPagination
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = PostSerializer
     pagination_class = PostsPagination
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (
-    #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (
+        IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
         id = self.kwargs['pk']
