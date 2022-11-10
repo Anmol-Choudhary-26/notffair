@@ -26,6 +26,22 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
+
+        id = self.kwargs['pk']
+        user = Users.objects.get(firebase=id)
+        posts = TeamPost.objects.all()
+        for post in posts:
+            a = True
+            for u in post.likes.all():
+                if u == user:
+                    a = False
+                    post.islikedbycurrentuser = True
+                    post.save()
+                    break
+            if a == True:
+                post.islikedbycurrentuser = False
+                post.save()
+
         queryset = TeamPost.objects.all()
         return queryset
 

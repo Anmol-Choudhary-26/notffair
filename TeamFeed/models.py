@@ -14,6 +14,7 @@ class TeamPost(models.Model):
         on_delete=models.CASCADE,
         related_name='Team_posts'
     )
+    islikedbycurrentuser = models.BooleanField(default=False)
     isVid = models.BooleanField(default=False)
     photo = models.URLField(max_length=255,null=True, blank=False)
     text = models.TextField(max_length=500, blank=True)

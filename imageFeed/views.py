@@ -27,6 +27,21 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
+        id = self.kwargs['pk']
+        user = Users.objects.get(firebase=id)
+        posts = Post.objects.all()
+        for post in posts:
+            a = True
+            for u in post.likes.all():
+                if u == user:
+                    a = False
+                    post.islikedbycurrentuser = True
+                    post.save()
+                    break
+            if a == True:
+                post.islikedbycurrentuser = False
+                post.save()
+            
         queryset = Post.objects.all()
         return queryset
 
@@ -100,6 +115,7 @@ class LikeView(GenericAPIView):
 
     def post(self, request: Request,pk, pk1):
         data = request.data
+        print(data)
         serializer = LikeSerializer(data=data)
         if serializer.is_valid():
             try:
