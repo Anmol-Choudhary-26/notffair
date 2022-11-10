@@ -6,7 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework import  generics, status
-from utils.helper_response import InvalidUserIdResponse
+from Utils.helper_response import InvalidUserIdResponse
 from .serializers import ReportSerializer, RoomSerializer, SendMsgSerializer, GetRoomSerializer
 from user.authentication import FirebaseAuthentication
 

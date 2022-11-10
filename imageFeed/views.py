@@ -11,13 +11,11 @@ from rest_framework.request import Request
 from rest_framework.authentication import SessionAuthentication
 from .permissions import IsOwnerOrReadOnly, IsOwnerOrPostOwnerOrReadOnly
 from .pagination import FollowersLikersPagination
-from utils.helper_response import InvalidUserIdResponse
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateModelMixin , RetrieveModelMixin , DestroyModelMixin
 from django.http import JsonResponse
 from user.authentication import FirebaseAuthentication
 from .pagination import PageNumberPagination, PostsPagination
-
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = PostSerializer
@@ -55,7 +53,7 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
             try:
                 user = Users.objects.all().get(firebase = pk)
             except Users.DoesNotExist:
-                return InvalidUserIdResponse
+                return Http404
 
             serializer.save(author=user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

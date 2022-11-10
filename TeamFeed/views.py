@@ -9,7 +9,7 @@ from rest_framework.request import Request
 from rest_framework.authentication import SessionAuthentication
 from .permissions import IsOwnerOrReadOnly, IsOwnerOrPostOwnerOrReadOnly
 from .pagination import FollowersLikersPagination
-from utils.helper_response import InvalidUserIdResponse
+from Utils.helper_response import InvalidUserIdResponse
 from rest_framework.generics import GenericAPIView
 from django.http.response import Http404
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateModelMixin , RetrieveModelMixin , DestroyModelMixin

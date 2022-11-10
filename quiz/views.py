@@ -7,7 +7,7 @@ from rest_framework.mixins import CreateModelMixin, ListModelMixin, UpdateModelM
 from django.utils import timezone
 from quiz.serializers import QuizSerializer, ScoreBoardSerializer, QuizScoreBoardSerializer, QuestionSerializer, \
     QuestionSerializerFull, ResponseSerializer, QuizResponseSerializer
-from utils.helper_response import InternalServerErrorResponse, InvalidQuizIdResponse, QuizNotStartedResponse, \
+from Utils.helper_response import InternalServerErrorResponse, InvalidQuizIdResponse, QuizNotStartedResponse, \
     InvalidUserIdResponse, QuizAlreadyAttemptedResponse, InvalidQuestionIdResponse
 from quiz.serializers import QuizSerializer, ScoreBoardSerializer, QuizScoreBoardSerializer, QuizPlayedOrNotSerializer
 from rest_framework.status import HTTP_400_BAD_REQUEST
