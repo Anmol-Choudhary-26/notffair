@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-siec$e_%@f8#y_w@)-$bcq5b^0#v0c_6f3y&=42go6#rt+&7d-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "appteam.mhsalmaan.me"]
 
@@ -87,7 +87,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'hillfair22_backend.urls'
 
-cred = credentials.Certificate(os.path.join(BASE_DIR, "google-services.json"))
+cred = credentials.Certificate(os.path.join(BASE_DIR, "hillfare2k22-2-firebase-adminsdk-ym6jb-e8915b74cc.json"))
 firebase_admin.initialize_app(cred)
 
 
@@ -109,12 +109,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hillfair22_backend.wsgi.application'
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'users.authentication.FirebaseAuthentication',
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': (
+#         'rest_framework.permissions.IsAuthenticated',
+#     ),
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'user.authentication.FirebaseAuthentication',
 
-    ),
-}
+#     ),
+# }
 
 
 # Database

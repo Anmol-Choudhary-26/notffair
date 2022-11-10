@@ -155,7 +155,7 @@ class GetLikersView(generics.ListAPIView):
     pagination_class = FollowersLikersPagination
 
     authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.AllowAny,)
+    permission_classes = (permissions.IsAuthenticated)
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']
