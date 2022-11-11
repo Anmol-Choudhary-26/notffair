@@ -1,8 +1,9 @@
 **/__pycache__/
 **/migrations/
 
-.vscode
-db.sqlite3
+.vscode/
+db.sqlite3/
+test/
 
 
 google-services.json

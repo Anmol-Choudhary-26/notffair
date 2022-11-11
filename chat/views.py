@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from TeamFeed import permissions
 from chat.models import Room, Message
 from django.http import HttpResponse, JsonResponse
 from user.models import Users
@@ -9,6 +10,7 @@ from rest_framework import  generics, status
 from Utils.helper_response import InvalidUserIdResponse
 from .serializers import ReportSerializer, RoomSerializer, SendMsgSerializer, GetRoomSerializer
 from user.authentication import FirebaseAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 # views
 
@@ -32,8 +34,10 @@ def userPresentOrNot(request, roomId):
 
 class GetRoomView(generics.GenericAPIView):
     serializer_class = GetRoomSerializer
+    queryset = Room.objects.all
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = [IsAuthenticated]
 
     def post(self, request: Request, pk):
         data = request.data
@@ -88,9 +92,8 @@ class SendMsgViewSet(generics.CreateAPIView):
     serializer_class = SendMsgSerializer
     queryset =Message.objects.all()
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (
-    #     IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (IsAuthenticated)
 
 
     
@@ -117,7 +120,8 @@ class GetMessages(generics.GenericAPIView):
     serializer_class = SendMsgSerializer
     queryset =Message.objects.all()
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (IsAuthenticated)
     
     def get(self,request, room):
         try:

@@ -2,6 +2,8 @@ from rest_framework import permissions, viewsets, generics, status
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
+
+from imageFeed.models import Comment
 from .serializers import TeamPostSerializer, TeamCommentSerializer, UserSerializerforImagefeed, TeamLikeSerializer
 from .models import TeamPost, TeamComment
 from user.models import Users
@@ -27,20 +29,20 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
 
     def get_queryset(self):
 
-        id = self.kwargs['pk']
-        user = Users.objects.get(firebase=id)
-        posts = TeamPost.objects.all()
-        for post in posts:
-            a = True
-            for u in post.likes.all():
-                if u == user:
-                    a = False
-                    post.islikedbycurrentuser = True
-                    post.save()
-                    break
-            if a == True:
-                post.islikedbycurrentuser = False
-                post.save()
+        # id = self.kwargs['pk']
+        # user = Users.objects.get(firebase=id)
+        # posts = TeamPost.objects.all()
+        # for post in posts:
+        #     a = True
+        #     for u in post.likes.all():
+        #         if u == user:
+        #             a = False
+        #             post.islikedbycurrentuser = True
+        #             post.save()
+        #             break
+        #     if a == True:
+        #         post.islikedbycurrentuser = False
+        #         post.save()
 
         queryset = TeamPost.objects.all()
         return queryset
@@ -64,11 +66,40 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
                 serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AddCommentView(generics.CreateAPIView):
-    serializer_class = TeamCommentSerializer
+class GetTeamPost(generics.ListAPIView):
+    serializer_class = TeamPostSerializer
+    pagination_class = PostsPagination
 
     authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticated)
+
+    def get_queryset(self):
+
+        id = self.kwargs['userId']
+        user = Users.objects.get(firebase=id)
+        posts = TeamPost.objects.all()
+        for post in posts:
+            a = True
+            for u in post.likes.all():
+                if u == user:
+                    a = False
+                    post.islikedbycurrentuser = True
+                    post.save()
+                    break
+            if a == True:
+                post.islikedbycurrentuser = False
+                post.save()
+
+        queryset = TeamPost.objects.all()
+        return queryset
+
+
+class AddCommentView(generics.CreateAPIView):
+    serializer_class = TeamCommentSerializer
+    queryset = Comment.objects.all
+
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
 
 
     def post(self, request: Request, pk, pk1):
@@ -98,7 +129,7 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
     lookup_url_kwarg = 'comment_id'
 
     authentication_classes = [FirebaseAuthentication]
-    permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
+    permission_classes = (IsOwnerOrPostOwnerOrReadOnly, permissions.IsAuthenticated)
 
     def get_queryset(self):
         queryset = TeamComment.objects.all()
@@ -107,6 +138,7 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
 
 class LikeView(GenericAPIView):
     serializer_class = TeamLikeSerializer
+    queryset = TeamPost.objects.all
     """Toggle like"""
 
     authentication_classes = [FirebaseAuthentication]
@@ -188,6 +220,9 @@ def getPostComments(request, post):
 
 class TeampostView(GenericAPIView, UpdateModelMixin, DestroyModelMixin):
     serializer_class =  TeamPostSerializer
+
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticated)
 
     def get_queryset(self, pk=None):
         try:

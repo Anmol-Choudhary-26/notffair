@@ -16,6 +16,7 @@ from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateMode
 from django.http import JsonResponse
 from user.authentication import FirebaseAuthentication
 from .pagination import PageNumberPagination, PostsPagination
+from Utils.helper_response import InvalidUserIdResponse
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = PostSerializer
@@ -25,26 +26,26 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
         IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
-        id = self.kwargs['pk']
-        user = Users.objects.get(firebase=id)
-        posts = Post.objects.all()
-        for post in posts:
-            a = True
-            for u in post.likes.all():
-                if u == user:
-                    a = False
-                    post.islikedbycurrentuser = True
-                    post.save()
-                    break
-            if a == True:
-                post.islikedbycurrentuser = False
-                post.save()
+        # id = self.kwargs['pk']
+        # user = Users.objects.get(firebase=id)
+        # posts = Post.objects.all()
+        # for post in posts:
+        #     a = True
+        #     for u in post.likes.all():
+        #         if u == user:
+        #             a = False
+        #             post.islikedbycurrentuser = True
+        #             post.save()
+        #             break
+        #     if a == True:
+        #         post.islikedbycurrentuser = False
+        #         post.save()
             
         queryset = Post.objects.all()
         return queryset
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
+    # def get(self, request, *args, **kwargs):
+    #     return self.list(request, *args, **kwargs)
 
     def post(self, request: Request, pk):
         data = request.data
@@ -64,9 +65,10 @@ class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
 
 class AddCommentView(generics.CreateAPIView):
     serializer_class = CommentSerializer
+    queryset = Comment.objects.all
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
 
     def post(self, request: Request, pk, pk1):
@@ -90,13 +92,41 @@ class AddCommentView(generics.CreateAPIView):
                 serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class GetPost(generics.ListAPIView):
+    serializer_class = PostSerializer
+    pagination_class = PostsPagination
+
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_queryset(self):
+        id = self.kwargs['userId']
+        try:
+            user = Users.objects.all().get(firebase=id)
+        except Users.DoesNotExist:
+            return InvalidUserIdResponse
+        posts = Post.objects.all()
+        for post in posts:
+            a = True
+            for u in post.likes.all():
+                if u == user:
+                    a = False
+                    post.islikedbycurrentuser = True
+                    post.save()
+                    break
+            if a == True:
+                post.islikedbycurrentuser = False
+                post.save()
+
+        queryset = Post.objects.all()
+        return queryset
 
 class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     lookup_url_kwarg = 'comment_id'
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (IsOwnerOrPostOwnerOrReadOnly,)
 
     def get_queryset(self):
         queryset = Comment.objects.all()
@@ -105,11 +135,12 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
 
 class LikeView(GenericAPIView):
     serializer_class = LikeSerializer
+    queryset = Post.objects.all
     """Toggle like"""
 
-    # authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [FirebaseAuthentication]
     # authentication_classes = [SessionAuthentication]
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request: Request,pk, pk1):
         data = request.data
@@ -154,8 +185,8 @@ class GetLikersView(generics.ListAPIView):
     serializer_class = UserSerializerforImagefeed
     pagination_class = FollowersLikersPagination
 
-    # authentication_classes = [FirebaseAuthentication]
-    # permission_classes = (permissions.AllowAny,)
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']
@@ -185,6 +216,9 @@ def getPostComments(request, post):
 
 class postView(GenericAPIView, UpdateModelMixin, DestroyModelMixin):
     serializer_class =  PostSerializer
+
+    authentication_classes = [FirebaseAuthentication]
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
 
     def get_queryset(self, pk=None):
         try:

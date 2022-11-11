@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-siec$e_%@f8#y_w@)-$bcq5b^0#v0c_6f3y&=42go6#rt+&7d-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "appteam.mhsalmaan.me"]
 
@@ -52,10 +52,10 @@ INSTALLED_APPS = [
     'teams',
     'imageFeed',
     'events',
-    'quiz',
-    'adminUser',
-    'store',
-    'coupons',
+#    'quiz',
+#    'adminUser',
+#    'store',
+#    'coupons',
     'chat',
     'TeamFeed',
     
@@ -194,4 +194,4 @@ AUTH_USER_MODEL = 'user.Users'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-LOGIN_URL = "/quizPanel/login"
+# LOGIN_URL = "/quizPanel/login"

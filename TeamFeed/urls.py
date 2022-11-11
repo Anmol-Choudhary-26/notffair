@@ -5,8 +5,8 @@ from .views import PostList,TeampostView
 from TeamFeed import views
 
 urlpatterns = [
-      path('<str:pk>/', PostList.as_view(),name='posts'),
-     path('addpost/<str:pk>/', PostList.as_view(),name='posts'),
+     path('<str:userId>/', views.GetTeamPost.as_view(),name='GetTeamPosts'),
+     path('addpost/<str:pk>/', PostList.as_view(),name='AddPosts'),
      path('comment/<str:pk>/<str:pk1>/',
          views.AddCommentView.as_view(),
          name='add-comment'),     
