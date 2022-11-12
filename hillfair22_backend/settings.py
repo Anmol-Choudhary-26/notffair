@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-siec$e_%@f8#y_w@)-$bcq5b^0#v0c_6f3y&=42go6#rt+&7d-
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "appteam.mhsalmaan.me"]
+CSRF_TRUSTED_ORIGINS = ['https://appteam.mhsalmaan.me','127.0.0.1','appteam.mhsalmaan.me']
 
 # Application definition
 
