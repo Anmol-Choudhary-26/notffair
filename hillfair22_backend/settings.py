@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-siec$e_%@f8#y_w@)-$bcq5b^0#v0c_6f3y&=42go6#rt+&7d-
 DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "appteam.mhsalmaan.me"]
-CSRF_TRUSTED_ORIGINS = ['https://appteam.mhsalmaan.me','127.0.0.1','appteam.mhsalmaan.me']
+CSRF_TRUSTED_ORIGINS = ['https://appteam.mhsalmaan.me','http://127.0.0.1','http://appteam.mhsalmaan.me']
 
 # Application definition
 
@@ -127,7 +127,7 @@ SIMPLE_JWT = {
     'USER_ID_FIELD': 'firebase',
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
-    'ROTATE_REFRESH_TOKENS': True,
+    'ROTATE_REFRESH_TOKENS': False,
 }
 
 

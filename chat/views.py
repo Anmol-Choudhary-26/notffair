@@ -37,8 +37,8 @@ class GetRoomView(generics.GenericAPIView):
     serializer_class = GetRoomSerializer
     queryset = Room.objects.all
 
-    authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    # authentication_classes = [JWTAuthentication]
+    # permission_classes = [IsAuthenticated]
 
     def post(self, request: Request, pk):
         data = request.data
@@ -69,6 +69,7 @@ class GetRoomView(generics.GenericAPIView):
                     else :
                         Room1.chater2 = user
                         Room1.nickname2 = data['nickname1']
+                        Room1.roomBlocked = True
                         Room1.save()
                         respSerializer = GetRoomSerializer(Room1)
                         print("hlo1")
@@ -133,7 +134,7 @@ class GetMessages(generics.GenericAPIView):
         return JsonResponse({"messages":list(messages.values())})
 
 
-
+@api_view(["GET"])
 def reportView(request, firebase):
     queryset = Users.objects.filter(firebase=firebase)
     if len(queryset) > 0:
