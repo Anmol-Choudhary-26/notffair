@@ -9,7 +9,7 @@ class UserSerializer(ModelSerializer):
         model = Users
         fields = ['password','first_name','last_name','firebase','name','gender','phone','ChatAllowed','ChatReports','email','score','instagramId','profileImage']
         extra_kwargs = {
-            'password':{'write_only':True}
+            'password':{'write_only':True},
         }
        
 

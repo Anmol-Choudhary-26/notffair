@@ -18,12 +18,13 @@ from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateMode
 from django.http import JsonResponse
 from user.authentication import FirebaseAuthentication
 from .pagination import PageNumberPagination, PostsPagination
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 class PostList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = TeamPostSerializer
     pagination_class = PostsPagination
 
-    authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = (
         IsOwnerOrReadOnly, permissions.IsAuthenticatedOrReadOnly)
 
@@ -70,8 +71,8 @@ class GetTeamPost(generics.ListAPIView):
     serializer_class = TeamPostSerializer
     pagination_class = PostsPagination
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticated)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
 
@@ -98,8 +99,8 @@ class AddCommentView(generics.CreateAPIView):
     serializer_class = TeamCommentSerializer
     queryset = Comment.objects.all
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
 
     def post(self, request: Request, pk, pk1):
@@ -128,8 +129,8 @@ class ManageCommentView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = TeamCommentSerializer
     lookup_url_kwarg = 'comment_id'
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (IsOwnerOrPostOwnerOrReadOnly, permissions.IsAuthenticated)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsOwnerOrPostOwnerOrReadOnly, permissions.IsAuthenticated]
 
     def get_queryset(self):
         queryset = TeamComment.objects.all()
@@ -141,7 +142,7 @@ class LikeView(GenericAPIView):
     queryset = TeamPost.objects.all
     """Toggle like"""
 
-    authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request: Request,pk, pk1):
@@ -186,8 +187,8 @@ class GetLikersView(generics.ListAPIView):
     serializer_class = UserSerializerforImagefeed
     pagination_class = FollowersLikersPagination
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticated)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         post_id = self.kwargs['post_id']
@@ -221,8 +222,8 @@ def getPostComments(request, post):
 class TeampostView(GenericAPIView, UpdateModelMixin, DestroyModelMixin):
     serializer_class =  TeamPostSerializer
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticated)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self, pk=None):
         try:

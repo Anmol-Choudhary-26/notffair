@@ -2,8 +2,8 @@
 **/migrations/
 
 .vscode/
-db.sqlite3/
 test/
+db.sqlite
 
 
 google-services.json

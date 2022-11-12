@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
-from django.db.models.fields import CharField, EmailField, IntegerField, BooleanField, URLField
+from django.db.models.fields import CharField, EmailField, IntegerField, BooleanField, URLField, UUIDField
 from django.core.validators import RegexValidator
 from user.managers import CustomUserManager
+import uuid
 # Create your models here.
 
 
@@ -39,6 +40,7 @@ class Users(AbstractUser):
     gender = CharField(max_length=1, choices=GENDER_CHOICES)
     username = None
     USERNAME_FIELD =  'email'
+    USER_ID_FIELD = 'firebase'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
 

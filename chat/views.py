@@ -10,6 +10,7 @@ from rest_framework import  generics, status
 from Utils.helper_response import InvalidUserIdResponse
 from .serializers import ReportSerializer, RoomSerializer, SendMsgSerializer, GetRoomSerializer
 from user.authentication import FirebaseAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 # views
@@ -36,7 +37,7 @@ class GetRoomView(generics.GenericAPIView):
     serializer_class = GetRoomSerializer
     queryset = Room.objects.all
 
-    authentication_classes = [FirebaseAuthentication]
+    authentication_classes = [JWTAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request: Request, pk):
@@ -92,8 +93,8 @@ class SendMsgViewSet(generics.CreateAPIView):
     serializer_class = SendMsgSerializer
     queryset =Message.objects.all()
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (IsAuthenticated)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
     
@@ -120,8 +121,8 @@ class GetMessages(generics.GenericAPIView):
     serializer_class = SendMsgSerializer
     queryset =Message.objects.all()
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (IsAuthenticated)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get(self,request, room):
         try:

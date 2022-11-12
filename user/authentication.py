@@ -1,3 +1,5 @@
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 import os
 from user.models import Users
 from rest_framework import authentication
@@ -35,3 +37,19 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
         user = Users.objects.get(firebase=uid)
 
         return (user, None)
+
+
+class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, Users):
+        token = super().get_token(Users)
+
+        # Add custom claims
+        token['firebase'] = Users.firebase
+        # ...
+
+        return token
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer

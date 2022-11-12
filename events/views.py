@@ -5,14 +5,15 @@ from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin , CreateModelMixin , UpdateModelMixin , RetrieveModelMixin , DestroyModelMixin
 from datetime import datetime
 from user.authentication import FirebaseAuthentication
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import permissions
 # Create your views here.
 
 class EventList(GenericAPIView , ListModelMixin , CreateModelMixin):
     serializer_class = EventSerializer
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
     
     def get_queryset(self):
         queryset = Events.objects.all().order_by('startTime')
@@ -43,8 +44,8 @@ class EventAccess(GenericAPIView , RetrieveModelMixin , UpdateModelMixin , Destr
     serializer_class = EventSerializer
     queryset = Events.objects.all()
 
-    authentication_classes = [FirebaseAuthentication]
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    authentication_classes = [JWTAuthentication]
+    permission_classes = (permissions.IsAuthenticated,)
     
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)

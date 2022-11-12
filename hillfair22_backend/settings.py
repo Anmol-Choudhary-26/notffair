@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from datetime import timedelta
 import os
 from pathlib import Path
 import firebase_admin
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
 #    'coupons',
     'chat',
     'TeamFeed',
+    'rest_framework_simplejwt',
     
 
     # Styling
@@ -87,8 +89,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'hillfair22_backend.urls'
 
-cred = credentials.Certificate(os.path.join(BASE_DIR, "hillfare2k22-2-firebase-adminsdk-ym6jb-e8915b74cc.json"))
-firebase_admin.initialize_app(cred)
+# cred = credentials.Certificate(os.path.join(BASE_DIR, "hillfare2k22-2-firebase-adminsdk-ym6jb-e8915b74cc.json"))
+# firebase_admin.initialize_app(cred)
 
 
 TEMPLATES = [
@@ -111,13 +113,21 @@ WSGI_APPLICATION = 'hillfair22_backend.wsgi.application'
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
+#         'rest_framework.permissions.AllowAny',
 #     ),
 #     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'user.authentication.FirebaseAuthentication',
+#         # 'user.authentication.FirebaseAuthentication',
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
 
 #     ),
 # }
+
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'firebase',
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
+    'ROTATE_REFRESH_TOKENS': True,
+}
 
 
 # Database
